@@ -50,7 +50,9 @@ def getNextPrime(primeList):
 
 
 def main():
-    print getPrimeFactors(NUMBER)
+    # The answer is the largest prime number
+    answer = max(getPrimeFactors(NUMBER))
+    print answer
 
 if __name__ == "__main__":
     main()
