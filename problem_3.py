@@ -17,6 +17,7 @@ def getPrimeFactors(number):
     primeList = [2]
     primeFactors = []
 
+    
     while number > 1:
         needNewPrime = True
         for n in primeList:
@@ -33,8 +34,10 @@ def getPrimeFactors(number):
 
 
 def getNextPrime(primeList):
+    """Given a list of prime numbers, takes the greater one 
+    and finds the next prime"""
     nextPrimeFound = False
-    lastNumber = primeList[-1]
+    lastNumber = max(primeList)
 
     while(not nextPrimeFound):
         isPrime = True
