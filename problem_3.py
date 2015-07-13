@@ -7,6 +7,8 @@ What is the largest prime factor of the number 600851475143 ?
 """
 
 NUMBER = 600851475143
+# NUMBER = 13195
+
 
 def getPrimeFactors(number):
     """Get a list with all prime factors of the number given"""
@@ -40,8 +42,9 @@ def getNextPrime(primeList):
         for p in primeList:
             if lastNumber % p == 0:
                 isPrime = False
-                
-        if(isPrime): nextPrimeFound = True
+
+        if(isPrime):
+            nextPrimeFound = True
 
     return lastNumber
 
