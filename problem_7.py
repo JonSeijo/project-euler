@@ -8,47 +8,25 @@ By listing the first six prime numbers:
 What is the 10 001st prime number?
 """
 
-"""
-plan 
-busqueda de primos como en problema 3?
 
-primes = [2]
-while(primes.size != 10001):
-    
-    tomo n,
-    lo divido por la lista de primos
-    si nunca fue divisible,
-    es primo, lo agrego a la lista de primos
-    tomo n+1
-    ...
-    hasta que la lista de primos tenga 100001 elementos
-
-"""
-
-def getPrimeList(index):
-
-    return primes
-
-
-def findPrime(index):
+def findPrime(numOfPrimes):
     primes = [2]
     n = 1
 
-    while len(primes) != index:
+    while len(primes) != numOfPrimes:
         # If n is even, WON'T be prime
         # So I only check odd numbers doing n+=2 (3, 5, 7, 9, ..)
-        # This way I only check half thee numbers
         n += 2
         isPrime = True
         for prime in primes:
             if n % prime == 0:
                 isPrime = False
-                break
+                break  # If n isn't prime, don't bother with more divisions
 
         if(isPrime):
             primes.append(n)
 
-    return primes[index-1]
+    return primes[numOfPrimes-1]
 
 
 def main():
