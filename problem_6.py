@@ -17,20 +17,19 @@ natural numbers and the square of the sum.
 
 
 def main():
-    sumSquare = 0
-    squareSum = 0
+    sumsSquare = 0
+    squaredSum = 0
     answer = 0
 
     for n in range(101):
-        sumSquare += pow(n, 2)
-        squareSum += n
+        sumsSquare += pow(n, 2)
+        squaredSum += n
 
-    squareSum = pow(squareSum, 2)
+    squaredSum = pow(squaredSum, 2)
 
-    answer = squareSum - sumSquare
+    answer = squaredSum - sumsSquare
 
     print answer
 
 if __name__ == "__main__":
     main()
-
