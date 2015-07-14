@@ -2,10 +2,11 @@
 # Problem 8
 
 """
-Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product
+Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. 
+What is the value of this product?
 """
 
-# File "problem_8_digits" has the digits of the proble 
+# File "problem_8_digits" has the digits of the problem
 
 
 def main():
@@ -24,7 +25,7 @@ def main():
         digitsHolder = digits[n:n+13]
 
         productTemp = 1
-        # Funfact: if productTemp 0, it will always be 0
+        # Funfact: if productTemp is 0, it will always be 0
         # Realized the hard way
 
         #Multiply the 13 numbers and store the value
