@@ -4,7 +4,7 @@
 """
 What is the greatest product of four adjacent numbers 
 in the same direction (up, down, left, right, or diagonally) 
-in the 20×20 grid?
+in the 20x20 grid?
 """
 
 # Grid in file "problem_11_grid"
@@ -54,7 +54,21 @@ ALTERNATIVA: comparar y almacenar el resultado maximo en una variable
 """
 
 def main():
-    
+
+    gridStr = []
+    # grid[Y][X]
+    grid = [[0 for x in range(20)] for x in range(20)]
+
+    with open("problem_11_grid") as f:
+        lines = f.read().splitlines()
+
+    for fila in lines:
+        gridStr.append(fila.split())
+
+    # Create a grid with ints
+    for y in range(20):
+        for x in range(20):
+            grid[y][x] = int(gridStr[y][x])
 
 
 if __name__ == "__main__":
