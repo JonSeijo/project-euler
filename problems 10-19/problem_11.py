@@ -77,7 +77,7 @@ def main():
     storeValues(grid)
 
     products = []
-    products_h = []
+    products_d = []
 
     # Analiza todos en vertical
     for x in range(20):
@@ -85,14 +85,26 @@ def main():
             products.append(grid[y][x] * grid[y+1][x] * 
                 grid[y+2][x] * grid[y+3][x])
 
-
     # Analiza todos en horizontal
     for y in range(20):
         for x in range(17): #no incluye 17, 18, 19, 20
-            products_h.append(grid[y][x] * 
+            products.append(grid[y][x] * 
                 grid[y][x+1] * grid[y][x+2] * grid[y][x+3])
 
-    print products_h
+    # Analiza todos en diagonal rightdown
+    for y in range(17):
+        for x in range(17): #no incluye 17, 18, 19, 20
+            products.append(grid[y][x] * 
+                grid[y+1][x+1] * grid[y+2][x+2] * grid[y+3][x+3])
+
+    # Analiza todos en diagonal leftdown
+    for y in range(17):
+        for x in range(17): #no incluye 17, 18, 19, 20
+            products.append(grid[y][x+3] * 
+                grid[y+1][x+2] * grid[y+2][x+1] * grid[y+3][x])
+
+    answer = max(products)
+    print answer
 
 if __name__ == "__main__":
     main()
