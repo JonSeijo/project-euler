@@ -17,7 +17,9 @@ def main():
     for num in lines:
         result += int(num)
 
+    # The answer are the first ten digits
     answer = str(result)[:10]
+
     print answer
 
 
