@@ -21,14 +21,17 @@ tens = ["", "ten", "twenty", "thirty", "forty", "fifty",
             "sixty", "seventy", "eighty", "ninety"]
 
 def getWrittenNumber(number):
+    """returns a string with the wirtten number.
+    Max number == 999"""
+    
     numberStr = str(number)
     digits = len(numberStr)
 
     unit = units[int(numberStr[-1])]
-
     if digits >= 2:
         ten = tens[int(numberStr[-2])]
-
+    if digits >= 3:
+        hundred = units[int(numberStr[-3])] + " hundred"
 
     if digits == 1:
         return unit
@@ -36,16 +39,16 @@ def getWrittenNumber(number):
     if digits == 2:
         return ten + " " + unit
 
+    if digits == 3:
+        if ten == "" and unit == "":
+            return hundred
+        else:
+            return hundred + " and " + ten + " " + unit
+
 
 def main():
-    wirttenNumber = getWrittenNumber(99)
+    wirttenNumber = getWrittenNumber(456)
     print wirttenNumber
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
