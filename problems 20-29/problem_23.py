@@ -28,6 +28,7 @@ import math
 
 
 def getProperDivisors(number):
+    """Returns a list with all divisors of the number except itself"""
     divisors = [1]
     for n in range(2, int(math.sqrt(number)+1)):
         if number % n == 0:
@@ -39,16 +40,25 @@ def getProperDivisors(number):
     return divisors
 
 
-def main():
+def getAbundantNumbers(maxNumber):
     abundantNumbers = []
-    for n in range(1, 28124):
+    for n in range(1, maxNumber):
         if sum(getProperDivisors(n)) > n:
             abundantNumbers.append(n)
 
+    return abundantNumbers
+
+
+def main():
+    """
+    IT TAKES SEVERAL MINUTES TO GIVE THE ANSWER.
+    At least 90 percent of the time is spent when
+    searching for n not in abundantNumbersSum
+    """
+    abundantNumbers = getAbundantNumbers(28123)
+
     abundantNumbersSum = []
-
     print "finding sums"
-
     for i in abundantNumbers:
         for j in abundantNumbers:
             abundantNumbersSum.append(i+j)
