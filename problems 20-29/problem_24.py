@@ -15,25 +15,35 @@ the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 """
 
 
-
 def main():
-    a = [1, 2, 3, 4]
-    k = 0
-    l = 0
+    a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    pos = 1
 
-    print a
+    while 1:
+        k = 0
+        l = 0
 
-    for i in range(0, len(a)-1):
-        if a[i] < a[i+1]:
-            k = i
+        last = True
+        for i in range(0, len(a)-1):
+            if a[i] < a[i+1]:
+                k = i
+                last = False
 
-    for i in range(k+1, len(a)):
-        if a[i] > a[k]:
-            l = i
+        if last:
+            break
 
-    a[k], a[l] = a[l], a[k]
+        for i in range(k+1, len(a)):
+            if a[i] > a[k]:
+                l = i
 
-    a = a[0:k+1] + a[3:k:-1]
+        a[k], a[l] = a[l], a[k]
+
+        a = a[0:k+1] + a[len(a)-1:k:-1]
+        pos += 1
+        if pos == 1000000:
+            break
+
+    print pos
     print a
 
 if __name__ == "__main__":
