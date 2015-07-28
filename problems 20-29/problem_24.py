@@ -16,35 +16,65 @@ the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 
 
 def main():
-    a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    """
+    I KNOW that I can just import "itertools" and call a permutation function.
+    That is NO fun at all, and I won't learn anything.
+    Learning is my main motivator here.
+
+
+    The idea of the algorithm was taken from here:
+    https://en.wikipedia.org/wiki/Permutation
+    although there are many sources.
+
+    From wikipedia:
+    "The following algorithm generates the next permutation lexicographically
+    after a given permutation. It changes the given permutation in-place.
+
+    1. Find the largest index k such that a[k] < a[k + 1].
+    If no such index exists, the permutation is the last permutation.
+
+    2 .Find the largest index l greater than k such that a[k] < a[l].
+    
+    3. Swap the value of a[k] with that of a[l].
+    
+    4. Reverse the sequence from a[k + 1] up to and including
+    the final element a[n].
+    """
+    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     pos = 1
 
-    while 1:
+    while True:
         k = 0
         l = 0
 
         last = True
-        for i in range(0, len(a)-1):
-            if a[i] < a[i+1]:
+        for i in range(0, len(digits)-1):
+            # If this does not exist, there are no more permutations
+            if digits[i] < digits[i+1]:
                 k = i
                 last = False
 
         if last:
             break
 
-        for i in range(k+1, len(a)):
-            if a[i] > a[k]:
+        for i in range(k+1, len(digits)):
+            # Find the biggest digit larger than k
+            if digits[i] > digits[k]:
                 l = i
 
-        a[k], a[l] = a[l], a[k]
+        # Swap those two digits
+        digits[k], digits[l] = digits[l], digits[k]
 
-        a = a[0:k+1] + a[len(a)-1:k:-1]
+        # Reverses the digits from k+1
+        # Python magic, list[begin:end:step] returns that slice-[::-1] reverses
+        digits = digits[0:k+1] + digits[len(digits)-1:k:-1]
+
         pos += 1
         if pos == 1000000:
             break
 
     print pos
-    print a
+    print digits
 
 if __name__ == "__main__":
     main()
