@@ -55,6 +55,9 @@ def isPermutation(number1, number2):
 
 
 def main():
+    """
+    Jonathan Seijo
+    """
 
     answer = ''
     number = 1001
