@@ -40,7 +40,7 @@ def findWinner(hand):
     if w1 and not w2: return 1
     if w2 and not w1: return 0
     if w1 and w2:
-        if sum(player1Hand[1::2]) > sum(player2Hand[1::2]): return 1
+        if sum(player1Hand[::2]) > sum(player2Hand[::2]): return 1
         else: return 0
 
     # FOUR OF A KIND
@@ -56,10 +56,16 @@ def findWinner(hand):
 
 def hasFourOfAKind(hand):
     # Four of a Kind: Four cards of the same value.
-    hasHand = False
-    repeatedValue = 0
 
-    return hasHand, repeatedValue
+    for value in CARDS:
+        counter = 0
+        for numberHand in hand[::2]:
+            if value == numberHand:
+                counter += 1
+                if counter == 4:
+                    return True, value
+
+    return False, 0
 
 
 def hasStraighFlush(hand):
@@ -104,6 +110,8 @@ def main():
         playerOneWins += findWinner(hand)
 
     print playerOneWins
+
+    print hasFourOfAKind("4C5C4S4H5D")
     
 if __name__ == "__main__":
     main()
