@@ -44,9 +44,14 @@ def findWinner(hand):
         else: return 0
 
     # FOUR OF A KIND
-
-
-
+    w1, n1 = hasFourOfAKind(player1Hand)
+    w2, n2 = hasFourOfAKind(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        # HACER FUNCION DE CARTA MAYOR
+        if n1 > n2: return 1
+        if n1 < n2: return 0
 
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
@@ -106,12 +111,14 @@ def main():
     with open("problem_54_poker.txt") as f:
         hands = f.read().splitlines()
 
+   # hands = ["4C 4C 4C 4C AC 3C 3C 3C 3C AC"]
+
     for hand in hands:
         playerOneWins += findWinner(hand)
 
     print playerOneWins
 
-    print hasFourOfAKind("4C5C4S4H5D")
+   # print hasFourOfAKind("4C5C4S4H5D")
     
 if __name__ == "__main__":
     main()
