@@ -25,18 +25,57 @@ def findWinner(hand):
 
     print player1Hand + " " + player2Hand
 
+    # ROYAL FLUSH
     w1 = hasRoyalFlush(player1Hand)
     w2 = hasRoyalFlush(player2Hand)
 
-    if w1 and not w2:
-        return 1
-    if w2 and not w1:
-        return 0
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+
+
+    # STRAIGH FLUSH
+    w1 = hasStraighFlush(player1Hand)
+    w2 = hasStraighFlush(player2Hand)
+
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        if sum(player1Hand[1::2]) > sum(player2Hand[1::2]): return 1
+        else: return 0
+
+    # FOUR OF A KIND
+
+
+
+
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
     # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
 
     return 0
+
+def hasFourOfAKind(hand):
+    # Four of a Kind: Four cards of the same value.
+    hasHand = False
+    repeatedValue = 0
+
+    return hasHand, repeatedValue
+
+
+def hasStraighFlush(hand):
+    # Straight Flush: All cards are consecutive values of same suit.
+    count = 0
+    for suit in SUITS:
+        for number in CARDS:
+            if(number+suit) in hand:
+                count += 1
+                if count == 5:
+                    return True
+            else:
+                count = 0
+
+    return False
+
 
 def hasRoyalFlush(hand):
     # Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
@@ -65,6 +104,6 @@ def main():
         playerOneWins += findWinner(hand)
 
     print playerOneWins
-
+    
 if __name__ == "__main__":
     main()
