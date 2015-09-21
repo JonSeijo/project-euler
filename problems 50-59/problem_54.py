@@ -64,7 +64,16 @@ def findWinner(hand):
             if isGreater(n1_2, n2_2): return 1
             if isGreater(n2_2, n1_2): return 0
 
-    
+
+    # FLUSH
+    w1, h1 = hasFlush(player1Hand)
+    w2, h2 = hasFlush(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        for i in range(0, 4):
+            if h1[i] > h2[i]: return 1
+            if h1[i] < h2[i]: return 0
 
 
 
@@ -72,6 +81,21 @@ def findWinner(hand):
     # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
 
     return 0
+
+
+def hasFlush(hand):
+    # Flush: All cards of the same suit.
+    for suit in SUITS:
+        counter = 0
+        for s in hand[1::2]:
+            if suit == s:
+                # NECESITO FORMA DE CONSEGUIR LAS CARTAS ALTAS DEL FLUSH
+                counter += 1
+                if counter == 5:
+                    # It does not have royals, or it would be royal flush
+                    return True, sorted(hand[::2])[::-1]
+
+    return False, [0,0,0,0,0]
 
 
 def hasFullHouse(hand):
@@ -157,7 +181,7 @@ def main():
 
     print playerOneWins
 
-   # print hasFourOfAKind("4C5C4S4H5D")
+    print hasFlush("JC5C4C4C5C")
     
 if __name__ == "__main__":
     main()
