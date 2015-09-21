@@ -87,11 +87,24 @@ def findWinner(hand):
             if isGreater(h2[i], h1[i]): return 0
 
 
+    # THREE OF A KIND
+    w1, n1 = hasThreeOfAKind(player1Hand)
+    w2, n2 = hasThreeOfAKind(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        if isGreater(n1, n2): return 1
+        else: return 0
+
+
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
     # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
 
     return 0
+
+def hasThreeOfAKind(hand):
+    return hasNequals(hand, 3)
 
 
 def hasStraight(hand):
@@ -230,7 +243,7 @@ def main():
 
     print playerOneWins
 
-    print hasStraight("TCQCJCKCAC")
+    print hasThreeOfAKind("TCTHTC4CAC")
 
 
 if __name__ == "__main__":
