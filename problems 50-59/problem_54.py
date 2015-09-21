@@ -96,6 +96,19 @@ def findWinner(hand):
         if isGreater(n1, n2): return 1
         else: return 0
 
+    # TWO PAIRS
+    w1, n1_1, n1_2 = hasTwoPairs(player1Hand)
+    w2, n2_1, n2_2 = hasTwoPairs(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        if isGreater(n1_1, n2_1): return 1
+        if isGreater(n2_1, n1_1): return 0
+        else: # are equal
+            if isGreater(n1_2, n2_2): return 1
+            if isGreater(n2_2, n1_2): return 0
+
+
 
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
@@ -103,7 +116,24 @@ def findWinner(hand):
 
     return 0
 
+
+def hasTwoPairs(hand):
+    # Two Pairs: Two different pairs.
+    has1, n1 = hasNequals(hand, 2)
+    if has1:
+        hand = hand.replace(n1, '0')
+        has2, n2 = hasNequals(hand, 2)
+        if has2:
+            if n1 > n2:
+                return True, n1, n2
+            else:
+                return True, n2, n1
+
+    return False, 0, 0
+
+
 def hasThreeOfAKind(hand):
+    #Three of a Kind: Three cards of the same value.
     return hasNequals(hand, 3)
 
 
@@ -243,7 +273,7 @@ def main():
 
     print playerOneWins
 
-    print hasThreeOfAKind("TCTHTC4CAC")
+    print hasTwoPairs("2C2H4C4CAC")
 
 
 if __name__ == "__main__":
