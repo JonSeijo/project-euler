@@ -72,8 +72,12 @@ def findWinner(hand):
     if w2 and not w1: return 0
     if w1 and w2:
         for i in range(0, 4):
-            if h1[i] > h2[i]: return 1
-            if h1[i] < h2[i]: return 0
+            if isGreater(h1[i], h2[i]): return 1
+            if isGreater(h2[i], h1[i]): return 0
+
+
+    # STRAIGHT
+    
 
 
 
@@ -83,19 +87,56 @@ def findWinner(hand):
     return 0
 
 
+def hasStraight(hand):
+    # Straight: All cards are consecutive values.
+    counter = 0
+    for card in CARDS:
+        if card in hand:
+            counter += 1
+            if counter == 5:
+                return True, sorted(hand[::2])[::-1]
+        else:
+            counter = 0
+
+    return False, [0,0,0,0,0]
+
+
 def hasFlush(hand):
     # Flush: All cards of the same suit.
     for suit in SUITS:
         counter = 0
         for s in hand[1::2]:
             if suit == s:
-                # NECESITO FORMA DE CONSEGUIR LAS CARTAS ALTAS DEL FLUSH
                 counter += 1
                 if counter == 5:
                     # It does not have royals, or it would be royal flush
-                    return True, sorted(hand[::2])[::-1]
+                    return True, cardSort(hand[::2])[::-1]
 
     return False, [0,0,0,0,0]
+
+
+def cardSort(unsortedCards):
+    """ Need to implement because of J, K, A etc"""
+
+    cards = [unsortedCards[0], unsortedCards[1], unsortedCards[2],
+        unsortedCards[3], unsortedCards[4]]
+
+    # USING SELECTION SORT
+    iMin = 0
+    for j in range(0, len(cards)-1):
+        iMin = j
+
+        for i in range(j+1, len(cards)):
+
+            if isGreater(cards[iMin], cards[i]):
+                iMin = i
+
+        if iMin != j:
+            swapper = cards[iMin]
+            cards[iMin] = cards[j]
+            cards[j] = swapper
+
+    return cards
 
 
 def hasFullHouse(hand):
@@ -107,6 +148,7 @@ def hasFullHouse(hand):
         return True, n3, n2
     else:
         return False, 0, 0
+
 
 def isGreater(n1, n2):
     i1 = 0
@@ -181,7 +223,8 @@ def main():
 
     print playerOneWins
 
-    print hasFlush("JC5C4C4C5C")
-    
+    print hasStraight("TCQCJCKCAC")
+
+
 if __name__ == "__main__":
     main()
