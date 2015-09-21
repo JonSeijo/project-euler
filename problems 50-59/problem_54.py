@@ -44,13 +44,29 @@ def findWinner(hand):
         else: return 0
 
     # FOUR OF A KIND
-    w1, n1 = hasFourOfAKind(player1Hand)
-    w2, n2 = hasFourOfAKind(player2Hand)
+    w1, n1_4 = hasFourOfAKind(player1Hand)
+    w2, n2_4 = hasFourOfAKind(player2Hand)
     if w1 and not w2: return 1
     if w2 and not w1: return 0
     if w1 and w2:
-        if isGreaterThan(n1, n2): return 1
+        if isGreater(n1_4, n2_4): return 1
         else: return 0
+
+    # FULL HOUSE
+    w1, n1_3, n1_2 = hasFullHouse(player1Hand)
+    w2, n2_3, n2_2 = hasFullHouse(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        if isGreater(n1_3, n2_3): return 1
+        if isGreater(n2_3, n1_3): return 0
+        else: # are equal
+            if isGreater(n1_2, n2_2): return 1
+            if isGreater(n2_2, n1_2): return 0
+
+    
+
+
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
     # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
@@ -58,7 +74,17 @@ def findWinner(hand):
     return 0
 
 
-def isGreaterThan(n1, n2):
+def hasFullHouse(hand):
+    # Full House: Three of a kind and a pair.
+    w3, n3 = hasNequals(hand, 3)
+    w2, n2 = hasNequals(hand, 2)
+
+    if w3 and w2:
+        return True, n3, n2
+    else:
+        return False, 0, 0
+
+def isGreater(n1, n2):
     i1 = 0
     i2 = 0
     for i in range(0, len(CARDS)):
@@ -69,15 +95,18 @@ def isGreaterThan(n1, n2):
 
     return (i1 > i2)
 
-def hasFourOfAKind(hand):
-    # Four of a Kind: Four cards of the same value.
 
+def hasFourOfAKind(hand):
+    return hasNequals(hand, 4)
+
+
+def hasNequals(hand, n):
     for value in CARDS:
         counter = 0
         for numberHand in hand[::2]:
             if value == numberHand:
                 counter += 1
-                if counter == 4:
+                if counter == n:
                     return True, value
 
     return False, 0
