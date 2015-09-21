@@ -49,15 +49,25 @@ def findWinner(hand):
     if w1 and not w2: return 1
     if w2 and not w1: return 0
     if w1 and w2:
-        # HACER FUNCION DE CARTA MAYOR
-        if n1 > n2: return 1
-        if n1 < n2: return 0
-
+        if isGreaterThan(n1, n2): return 1
+        else: return 0
 
     # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
     # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
 
     return 0
+
+
+def isGreaterThan(n1, n2):
+    i1 = 0
+    i2 = 0
+    for i in range(0, len(CARDS)):
+        if n1 == CARDS[i]:
+            i1 = i
+        if n2 == CARDS[i]:
+            i2 = i
+
+    return (i1 > i2)
 
 def hasFourOfAKind(hand):
     # Four of a Kind: Four cards of the same value.
