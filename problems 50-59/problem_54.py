@@ -21,9 +21,7 @@ def findWinner(hand):
     player1Hand = hand[:10]
     player2Hand = hand[10:]
 
-    isWinner = False
-
-    print player1Hand + " " + player2Hand
+    #print player1Hand + " " + player2Hand
 
     # ROYAL FLUSH
     w1 = hasRoyalFlush(player1Hand)
@@ -34,14 +32,15 @@ def findWinner(hand):
 
 
     # STRAIGH FLUSH
-    w1 = hasStraighFlush(player1Hand)
-    w2 = hasStraighFlush(player2Hand)
+    w1, h1 = hasStraighFlush(player1Hand)
+    w2, h2 = hasStraighFlush(player2Hand)
 
     if w1 and not w2: return 1
     if w2 and not w1: return 0
     if w1 and w2:
-        if sum(player1Hand[::2]) > sum(player2Hand[::2]): return 1
-        else: return 0
+        for i in range(0, 4):
+            if isGreater(h1[i], h2[i]): return 1
+            if isGreater(h2[i], h1[i]): return 0
 
     # FOUR OF A KIND
     w1, n1_4 = hasFourOfAKind(player1Hand)
@@ -108,13 +107,50 @@ def findWinner(hand):
             if isGreater(n1_2, n2_2): return 1
             if isGreater(n2_2, n1_2): return 0
 
+    # ONE PAIR
+    w1, n1, h1 = hasOnePair(player1Hand)
+    w2, n2, h2 = hasOnePair(player2Hand)
+    if w1 and not w2: return 1
+    if w2 and not w1: return 0
+    if w1 and w2:
+        if isGreater(n1, n2): return 1
+        if isGreater(n2, n1): return 0
+        else:
+            for i in range(0, 4):
+                if isGreater(h1[i], h2[i]): return 1
+                if isGreater(h2[i], h1[i]): return 0
 
+    # HIGHT CARD
 
+    h1 = highCard(player1Hand)
+    h2 = highCard(player2Hand)
 
-    # SI AMBOS GANAN, VER QUIEN TIENE SIGUIENTE MAS GRANDE
-    # SI NADIE GANA, VER SIGUIENTE JUEGO POSIBLE (straight flush)
+    for i in range(0, 4):
+        if isGreater(h1[i], h2[i]): return 1
+        if isGreater(h2[i], h1[i]): return 0
 
     return 0
+
+
+def highCard(hand):
+    # High Card: Highest value card.
+    return cardSort(hand[::2])[::-1]
+
+
+def hasOnePair(hand):
+    # One Pair: Two cards of the same value.
+    # TENGO QUE COMPARAR TODAS LAS SIGUIENTES CARTAS
+    has1, n1 = hasNequals(hand, 2)
+    if (has1):
+        hand = hand.replace(n1, '2')
+        hand = cardSort(hand[::2])[::-1]
+        for c in hand:
+            if c == '2':
+                c = '0'
+
+        return True, n1, hand
+
+    return False, 0, [0,0,0,0,0]
 
 
 def hasTwoPairs(hand):
@@ -144,7 +180,7 @@ def hasStraight(hand):
         if card in hand:
             counter += 1
             if counter == 5:
-                return True, sorted(hand[::2])[::-1]
+                return True, cardSort(hand[::2])[::-1]
         else:
             counter = 0
 
@@ -159,17 +195,16 @@ def hasFlush(hand):
             if suit == s:
                 counter += 1
                 if counter == 5:
-                    # It does not have royals, or it would be royal flush
                     return True, cardSort(hand[::2])[::-1]
 
     return False, [0,0,0,0,0]
 
 
 def cardSort(unsortedCards):
-    """ Need to implement because of J, K, A etc"""
+    """ Need to implement because of J, K, A etc
+        Returns cards in right order  eg  2,3,4,5,6"""
 
-    cards = [unsortedCards[0], unsortedCards[1], unsortedCards[2],
-        unsortedCards[3], unsortedCards[4]]
+    cards = [unsortedCards[0], unsortedCards[1], unsortedCards[2], unsortedCards[3], unsortedCards[4]]
 
     # USING SELECTION SORT
     iMin = 0
@@ -192,7 +227,9 @@ def cardSort(unsortedCards):
 def hasFullHouse(hand):
     # Full House: Three of a kind and a pair.
     w3, n3 = hasNequals(hand, 3)
-    w2, n2 = hasNequals(hand, 2)
+    if(w3):
+        hand = hand.replace(n3, '0')
+        w2, n2 = hasNequals(hand, 2)
 
     if w3 and w2:
         return True, n3, n2
@@ -236,11 +273,11 @@ def hasStraighFlush(hand):
             if(number+suit) in hand:
                 count += 1
                 if count == 5:
-                    return True
+                    return True, cardSort(hand[::2])[::-1]
             else:
                 count = 0
 
-    return False
+    return False, [0,0,0,0,0]
 
 
 def hasRoyalFlush(hand):
@@ -266,14 +303,12 @@ def main():
     with open("problem_54_poker.txt") as f:
         hands = f.read().splitlines()
 
-   # hands = ["4C 4C 4C 4C AC 3C 3C 3C 3C AC"]
-
     for hand in hands:
         playerOneWins += findWinner(hand)
 
-    print playerOneWins
+    print "player 1 wins: " + str(playerOneWins)
 
-    print hasTwoPairs("2C2H4C4CAC")
+   # print hasTwoPairs("2C2H4C4CAC")
 
 
 if __name__ == "__main__":
