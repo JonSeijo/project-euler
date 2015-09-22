@@ -77,7 +77,7 @@ def findWinner(hand):
 
     # STRAIGHT
     w1, h1 = hasStraight(player1Hand)
-    w1, h2 = hasStraight(player2Hand)
+    w2, h2 = hasStraight(player2Hand)
     if w1 and not w2: return 1
     if w2 and not w1: return 0
     if w1 and w2:
@@ -124,7 +124,6 @@ def findWinner(hand):
 
     h1 = highCard(player1Hand)
     h2 = highCard(player2Hand)
-
     for i in range(0, 4):
         if isGreater(h1[i], h2[i]): return 1
         if isGreater(h2[i], h1[i]): return 0
