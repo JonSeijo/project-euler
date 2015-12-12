@@ -14,7 +14,7 @@ two primes concatenate to produce another prime.
 
 import math
 
-
+# Genero primos hasta el integer maxPrime
 def generatePrimes(maxPrime):
     primes = [2]
 
@@ -29,6 +29,7 @@ def generatePrimes(maxPrime):
     return primes
 
 
+# Chequea si un numero es primo o no
 def isPrime(n):
     for p in primes:
         if n % p == 0:
@@ -37,9 +38,11 @@ def isPrime(n):
             return True
 
 
+# Concatenar izquierda
 def glueToLeft(n, m):
     return int(str(n) + str(m))
 
+# Concatenar derecha
 def glueToRight(n, m):
     return int(str(m) + str(n))
 
@@ -51,96 +54,38 @@ def glueToRight(n, m):
 # Con el limite en 10 000, sigue funcionando,
 # pero era imposible de saber de antemano 
 """
-#Genero lista de primos hasta el numero n
+#Genera lista de primos hasta el numero n
 primes = generatePrimes(10000)
 
 
-def main():
-
-    for p1 in primes:
-        if p1 == 2:
+def recursion(candidates, last):
+    for p in primes:
+        if p <= last:
             continue
 
-        print "candidato: " + str(p1)
-        candidates1 = [p1]
-        for p2 in primes:
-            if p2 <= p1:
-                continue
+        flag = True
 
-            flag2 = True
-            for cand in candidates1:
-                if not isPrime(glueToLeft(p2, cand)):
-                    flag2 = False
-                    break
+        for cand in candidates:
+            if (not isPrime(glueToLeft(p, cand)) or
+                    not isPrime(glueToRight(p, cand))):
+                flag = False
+                break
 
-                if not isPrime(glueToRight(p2, cand)):
-                    flag2 = False
-                    break
+        if flag:
+            candidates.append(p)
+            if len(candidates) == 5:
+                print candidates
+                print "sum: " + str(sum(candidates))
+            else:
+                recursion(candidates[:-1], p)
 
-            if flag2:
-                candidates2 = [p1, p2]
-
-                for p3 in primes:
-                    if p3 <= p2:
-                        continue
-
-                    flag3 = True
-                    for cand in candidates2:
-                        if not isPrime(glueToLeft(p3, cand)):
-                            flag3 = False
-                            break
-
-                        if not isPrime(glueToRight(p3, cand)):
-                            flag3 = False
-                            break
-
-                    if flag3:
-                        candidates3 = [p1, p2, p3]
-
-                        for p4 in primes:
-                            if p4 <= p3:
-                                continue
-
-                            flag4 = True
-                            for cand in candidates3:
-                                if not isPrime(glueToLeft(p4, cand)):
-                                    flag4 = False
-                                    break
-
-                                if not isPrime(glueToRight(p4, cand)):
-                                    flag4 = False
-                                    break
-
-                            if flag4:
-                                #print "candidato p4: " + str(p4)
-                                #print candidates3
-                                candidates4 = [p1, p2, p3, p4]
-
-                                print candidates4
-
-                                for p5 in primes:
-                                    if p5 <= p4:
-                                        continue
-
-                                    flag5 = True
-                                    for cand in candidates4:
-                                        if not isPrime(glueToLeft(p5, cand)):
-                                            flag5 = False
-                                            break
-
-                                        if not isPrime(glueToRight(p5, cand)):
-                                            flag5 = False
-                                            break
-
-                                    if flag5:
-                                        candidates5 = [p1, p2, p3, p4, p5]
-                                        print candidates5
-                                        print "\n\n\n\n\n"
-                                        print "sum:" + str(sum(candidates5))
-
-                                        print "\n\n\n\n\n"
+    return
 
 
+def main():
+    for p in primes:
+        candidates = [p]
+        recursion(candidates, p)
 
 
 if __name__ == "__main__":
