@@ -66,7 +66,7 @@ def getNumberList(getFigure):
         t = getFigure(n)
 
         if t >= 1000:
-            figures.append(t)
+            figures.append(str(t))
 
         n += 1
 
@@ -74,11 +74,11 @@ def getNumberList(getFigure):
 
 
 def getTwoDigitsLeft(n):
-    return str(n)[0:2]
+    return n[0:2]
 
 
 def getTwoDigitsRight(n):
-    return str(n)[2:4]
+    return n[2:4]
 
 
 def esCiclico(conjunto, pRight, p1):
@@ -115,6 +115,9 @@ def algoritmoPrincipal():
     # Horrible, sry
     for p1 in triangles:
 
+        if int(p1) <= 1431:
+            continue
+
         print "Estoy en triangulo: " + str(p1)
 
         for p2 in squares:
@@ -144,7 +147,11 @@ def algoritmoPrincipal():
 
                             if esCiclico(conjunto, pRight, p1):
                                 print conjunto
-                                print "Ans: " + str(sum(conjunto))
+                                ans = 0
+                                for c in conjunto:
+                                    ans += int(c)
+
+                                print "Ans: " + str(ans)
                                 return
 
 
