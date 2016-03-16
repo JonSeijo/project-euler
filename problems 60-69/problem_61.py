@@ -112,6 +112,48 @@ def algoritmoPrincipal():
     heptagons = getNumberList(getNthHeptagonal)
     octagons = getNumberList(getNthOctagonal)
 
+    #ABCDEFGHIJKL
+
+    for p3 in triangles:
+
+        #ABCD
+        CD = getTwoDigitsRight(p3)
+
+        for p4 in squares:
+            #CDEF
+            if getTwoDigitsLeft(p4) == CD:
+                EF = getTwoDigitsRight(p4)
+
+                for p5 in pentagons:
+                    #EFGH
+                    if getTwoDigitsLeft(p5) == EF:
+                        GH = getTwoDigitsRight(p5)
+
+                        for p6 in hexagons:
+                            #GHIJ
+                            if getTwoDigitsLeft(p6) == GH:
+                                IJ = getTwoDigitsRight(p6)
+
+                                for p7 in heptagons:
+                                    #IJKL
+                                    if getTwoDigitsLeft(p7) == IJ:
+                                        KL = getTwoDigitsRight(p7)
+
+                                        for p8 in octagons:
+                                           # print p8
+                                            
+                                            #KLAB
+                                            if getTwoDigitsLeft(p8) == KL:  
+                                                print [p3, p4, p5, p6, p7, p8]                                   
+                                                if getTwoDigitsRight(p8) == getTwoDigitsLeft(p3):  #AB == AB
+                                                    print "gane"
+                                                    print sum([p3, p4, p5, p6, p7, p8])
+
+
+
+
+
+    """
     # Horrible, sry
     for p1 in triangles:
 
@@ -154,6 +196,7 @@ def algoritmoPrincipal():
                                 print "Ans: " + str(ans)
                                 return
 
+    """
 
 def main():
     # Hago esto para poder usar un return en el ciclo for de mas adentro.
