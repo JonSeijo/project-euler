@@ -65,7 +65,7 @@ def getNumberList(getFigure):
     while t < 10000:
         t = getFigure(n)
 
-        if t >= 1000:
+        if t >= 1000 and t < 10000:
             figures.append(str(t))
 
         n += 1
@@ -78,30 +78,19 @@ def getTwoDigitsLeft(n):
 
 
 def getTwoDigitsRight(n):
-    return n[2:4]
+    return n[-2:]
 
+"""
+Dada la string solucion, divido y hago la suma para resolver el problema
+"""
+def respuesta(cadena):
+    contador = 0
+    # La solucion es la suma de 6 numeros de 4 digitos
+    for i in range(0, 24, 4):
+        print cadena[i:i+4]
+        contador += int(cadena[i:i+4])
 
-def esCiclico(conjunto, pRight, p1):
-    if len(conjunto) == 0:
-        if pRight == getTwoDigitsLeft(p1):
-            return True
-        else:
-            return False
-
-    p = 0
-    flag = False
-    for c in conjunto:
-        if pRight == getTwoDigitsLeft(c):
-            p = c
-            flag = True
-            break
-
-    if flag:
-        pRight = getTwoDigitsRight(p)
-        conjunto.remove(p)
-        return esCiclico(conjunto, pRight, p1)
-    else:
-        return False
+    return contador
 
 
 def algoritmoPrincipal():
@@ -112,95 +101,39 @@ def algoritmoPrincipal():
     heptagons = getNumberList(getNthHeptagonal)
     octagons = getNumberList(getNthOctagonal)
 
-    #ABCDEFGHIJKL
+    poligons = [triangles, squares, pentagons, hexagons, heptagons, octagons]
 
-    for p3 in triangles:
-
-        #ABCD
-        CD = getTwoDigitsRight(p3)
-
-        for p4 in squares:
-            #CDEF
-            if getTwoDigitsLeft(p4) == CD:
-                EF = getTwoDigitsRight(p4)
-
-                for p5 in pentagons:
-                    #EFGH
-                    if getTwoDigitsLeft(p5) == EF:
-                        GH = getTwoDigitsRight(p5)
-
-                        for p6 in hexagons:
-                            #GHIJ
-                            if getTwoDigitsLeft(p6) == GH:
-                                IJ = getTwoDigitsRight(p6)
-
-                                for p7 in heptagons:
-                                    #IJKL
-                                    if getTwoDigitsLeft(p7) == IJ:
-                                        KL = getTwoDigitsRight(p7)
-
-                                        for p8 in octagons:
-                                           # print p8
-                                            
-                                            #KLAB
-                                            if getTwoDigitsLeft(p8) == KL:  
-                                                print [p3, p4, p5, p6, p7, p8]                                   
-                                                if getTwoDigitsRight(p8) == getTwoDigitsLeft(p3):  #AB == AB
-                                                    print "gane"
-                                                    print sum([p3, p4, p5, p6, p7, p8])
+    # Como tengo que encontrar ciclicos, puedo empezar por cualquiera,
+    # Elijo triangulos por elegir alguno. Con todos da la misma respuesta.
+    encontrarCiclico(triangles, "", poligons)
 
 
+# Resuelvo recursivamente
+def encontrarCiclico(poli, _cadenaActual, _poligonos):
+    poligonos = list(_poligonos) #Quiero modificar una copia
+    poligonos.remove(poli)
 
+    for p in poli:
+        # Uso una copia de cadena para no perder si necesito volver atras
+        cadenaActual = _cadenaActual[:]
 
+        if (cadenaActual == "") or (getTwoDigitsLeft(p) == getTwoDigitsRight(cadenaActual)):
+            cadenaActual += p
 
-    """
-    # Horrible, sry
-    for p1 in triangles:
+            # Si ya no quedan mas poligonos, entonces es ciclico y es solucion
+            if len(poligonos) == 0:
+                if getTwoDigitsRight(cadenaActual) == getTwoDigitsLeft(cadenaActual):
+                    print "RESPUESTA: " + str(respuesta(cadenaActual))
+                    return
 
-        if int(p1) <= 1431:
-            continue
+            else:
+                for poli2 in poligonos:
+                    encontrarCiclico(poli2, cadenaActual, poligonos)
 
-        print "Estoy en triangulo: " + str(p1)
+    return
 
-        for p2 in squares:
-            if p2 == p1:
-                continue
-
-            print "Estoy en cuadrado: " + str(p2)
-
-            for p3 in pentagons:
-                if p3 == p2:
-                    continue
-
-                for p4 in hexagons:
-                    if p4 == p3:
-                        continue
-
-                    for p5 in heptagons:
-                        if p5 == p4:
-                            continue
-
-                        for p6 in octagons:
-                            if p6 == p5:
-                                continue
-
-                            conjunto = [p2, p3, p4, p5, p6]
-                            pRight = getTwoDigitsRight(p1)
-
-                            if esCiclico(conjunto, pRight, p1):
-                                print conjunto
-                                ans = 0
-                                for c in conjunto:
-                                    ans += int(c)
-
-                                print "Ans: " + str(ans)
-                                return
-
-    """
 
 def main():
-    # Hago esto para poder usar un return en el ciclo for de mas adentro.
-    # Da miedo.
     algoritmoPrincipal()
 
 
