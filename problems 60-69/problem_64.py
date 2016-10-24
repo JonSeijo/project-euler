@@ -43,8 +43,6 @@ def main():
     odds = 0
     N = 10000
 
-
-    # se frena en 31
     for i in range(2, N+1):
         if i % 100 == 0:
             print str(i)
