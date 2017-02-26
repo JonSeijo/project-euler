@@ -12,8 +12,6 @@ The sum of digits in the numerator of the 10th convergent is 1+4+5+7=17.
 Find the sum of digits in the numerator of the 100th convergent of the continued fraction for e.
 """
 
-
-
 # Creo la fraccion continua de e, usando el enunciado
 e = [2, 1]
 for i in range(3, 101):
